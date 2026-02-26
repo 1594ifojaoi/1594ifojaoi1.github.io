@@ -1,0 +1,32 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 201,
+      "title": "总是睡前胡思乱想导致失眠，怎么办？",
+      "tag": "学业",
+      "answerCount": 0,
+      "likeCount": 0,
+      "hasReward": false,
+      "createTime": "2025-05-03T14:10:00Z"
+    },
+    {
+      "id": 202,
+      "title": "社交时会紧张出汗，说话卡顿，该如何改善？",
+      "tag": "人际",
+      "answerCount": 3,
+      "likeCount": 18,
+      "hasReward": false,
+      "createTime": "2025-05-02T09:30:00Z"
+    },
+    {
+      "id": 203,
+      "title": "最近心情低落没动力，是否可能是抑郁？",
+      "tag": "抑郁",
+      "answerCount": 1,
+      "likeCount": 5,
+      "hasReward": true,
+      "createTime": "2025-05-01T12:00:00Z"
+    }
+  ]
+}

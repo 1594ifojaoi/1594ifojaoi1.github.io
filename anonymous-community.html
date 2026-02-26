@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbour - 匿名同伴社区</title>
+    <link href="./style.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏（复用index.html的导航栏） -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <img src="./logo.png" alt="EchoSafe Harbor Logo" class="w-10 h-10 rounded-full object-cover">
+                <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+                <div class="relative w-full">
+                    <input type="text" placeholder="搜索小组/工坊..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 导航链接 -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-primary">提问广场</a>
+                <a href="ai-self-help.html" class="text-gray-600 hover:text-primary">AI自助</a>
+                <a href="my-questions.html" class="text-gray-600 hover:text-primary">我的提问</a>
+                <a href="my-answers.html" class="text-gray-600 hover:text-primary">我的回复</a>
+                <a href="anonymous-community.html" class="text-primary font-medium">匿名同伴社区</a>
+                <button id="publish-btn-desktop" class="btn-primary flex items-center">
+                    <i class="fa fa-plus mr-2"></i>
+                    <span>去提问</span>
+                </button>
+            </nav>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden text-gray-600 focus:outline-none" id="mobile-menu-btn">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端搜索框 -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" placeholder="搜索小组/工坊..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+            <div class="container mx-auto px-4 py-2">
+                <nav class="flex flex-col space-y-3 py-2">
+                    <a href="index.html" class="text-gray-600 hover:text-primary py-2">提问广场</a>
+                    <a href="ai-self-help.html" class="text-gray-600 hover:text-primary py-2">AI自助</a>
+                    <a href="my-questions.html" class="text-gray-600 hover:text-primary py-2">我的提问</a>
+                    <a href="my-answers.html" class="text-gray-600 hover:text-primary py-2">我的回复</a>
+                    <a href="anonymous-community.html" class="text-primary font-medium py-2">匿名同伴社区</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 社区介绍 -->
+        <div class="bg-white rounded-lg shadow-card p-6 mb-6 text-center">
+            <h2 class="text-xl font-bold text-dark mb-2">匿名同伴社区</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                在这里，你可以找到有相似情绪体验的同伴，通过小组互动缓解孤独、增强归属感。
+                我们提供「瞬时情绪小组」和「长期成长工坊」两类活动，陪伴你走过情绪低谷，实现自我成长。
+            </p>
+        </div>
+
+        <!-- 活动分类标签 -->
+        <div class="flex justify-center mb-6 border-b border-gray-200">
+            <button class="tab-active px-6 py-3 font-medium text-primary border-b-2 border-primary" data-tab="emotion-group">
+                瞬时情绪小组（AI组织）
+            </button>
+            <button class="tab-inactive px-6 py-3 font-medium text-gray-600 hover:text-primary" data-tab="growth-workshop">
+                长期成长工坊（咨询师负责）
+            </button>
+        </div>
+
+        <!-- 瞬时情绪小组板块 -->
+        <div class="tab-content active" id="emotion-group-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 示例小组1：焦虑情绪小组 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-blue-100 text-primary text-xs px-2 py-1 rounded-full">焦虑</span>
+                        <span class="text-sm text-gray-500">3天打卡 · 剩余2天</span>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">职场焦虑缓解小组</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        针对职场压力、职业迷茫引发的焦虑情绪，通过正念练习和同伴分享缓解情绪。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">12/15人</span>
+                        </div>
+                        <span class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">今日待打卡</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>Day1: 科普海报+正念音频已完成</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-clock-o text-warning mr-2"></i>
+                            <span>Day2: 情绪分享与集体建议（今日任务）</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-hourglass-o text-gray-400 mr-2"></i>
+                            <span>Day3: 情绪自评+优惠券发放（未开始）</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">加入小组</button>
+                </div>
+
+                <!-- 示例小组2：抑郁情绪小组 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">抑郁</span>
+                        <span class="text-sm text-gray-500">3天打卡 · 剩余1天</span>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">低落情绪陪伴小组</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        针对持续性情绪低落、兴趣减退，通过同伴陪伴和正向引导缓解抑郁情绪。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">8/15人</span>
+                        </div>
+                        <span class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">今日待打卡</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>Day1: 科普海报+正念音频已完成</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>Day2: 情绪分享与集体建议已完成</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-clock-o text-warning mr-2"></i>
+                            <span>Day3: 情绪自评+优惠券发放（今日任务）</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">加入小组</button>
+                </div>
+
+                <!-- 示例小组3：人际情绪小组 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">人际</span>
+                        <span class="text-sm text-gray-500">3天打卡 · 招募中</span>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">社交恐惧支持小组</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        针对社交场合紧张、害怕交流的情绪，通过同伴分享和技巧练习建立自信。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">4/15人</span>
+                        </div>
+                        <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">满5人开组</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-hourglass-o text-gray-400 mr-2"></i>
+                            <span>待开组：招募满5人后启动打卡</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">预约加入</button>
+                </div>
+            </div>
+
+            <!-- 历史小组记录 -->
+            <div class="mt-8 bg-white rounded-lg shadow-card p-5">
+                <h3 class="font-medium text-dark mb-4 flex items-center">
+                    <i class="fa fa-history text-gray-400 mr-2"></i>
+                    我的历史情绪小组
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-2 px-1 text-gray-600">小组名称</th>
+                                <th class="text-left py-2 px-1 text-gray-600">情绪标签</th>
+                                <th class="text-left py-2 px-1 text-gray-600">参与时间</th>
+                                <th class="text-left py-2 px-1 text-gray-600">情绪改善度</th>
+                                <th class="text-left py-2 px-1 text-gray-600">优惠券</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-1">学业压力缓解小组</td>
+                                <td class="py-3 px-1"><span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">学业</span></td>
+                                <td class="py-3 px-1">2024-05-01 ~ 2024-05-03</td>
+                                <td class="py-3 px-1"><span class="text-green-600">↓ 35%</span></td>
+                                <td class="py-3 px-1"><span class="text-primary">¥50咨询券（未使用）</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-1">亲密关系焦虑小组</td>
+                                <td class="py-3 px-1"><span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full">人际</span></td>
+                                <td class="py-3 px-1">2024-04-15 ~ 2024-04-17</td>
+                                <td class="py-3 px-1"><span class="text-green-600">↓ 28%</span></td>
+                                <td class="py-3 px-1"><span class="text-gray-400">¥30咨询券（已使用）</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 长期成长工坊板块 -->
+        <div class="tab-content hidden" id="growth-workshop-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 示例工坊1：正念成长工坊 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">8周周期</span>
+                        <span class="text-sm text-gray-500">每周二 20:00-21:30</span>
+                    </div>
+                    <div class="flex items-center mb-3">
+                        <img src="./counselor1.png" alt="咨询师头像" class="w-10 h-10 rounded-full mr-2">
+                        <div>
+                            <h4 class="font-medium text-dark">张咨询师</h4>
+                            <p class="text-xs text-gray-500">国家二级心理咨询师</p>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">正念减压成长工坊</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        8周正念训练，学习正念呼吸、身体扫描等技巧，有效缓解慢性压力和情绪内耗。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">10/15人</span>
+                        </div>
+                        <span class="text-xs text-primary bg-primary/5 px-2 py-1 rounded">剩余3个名额</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>加密语音房间+共享白板</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>30天课程回看权限</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>一对一成长计划定制</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">报名参与</button>
+                </div>
+
+                <!-- 示例工坊2：人际成长工坊 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">6周周期</span>
+                        <span class="text-sm text-gray-500">每周四 19:30-21:00</span>
+                    </div>
+                    <div class="flex items-center mb-3">
+                        <img src="./counselor2.png" alt="咨询师头像" class="w-10 h-10 rounded-full mr-2">
+                        <div>
+                            <h4 class="font-medium text-dark">李咨询师</h4>
+                            <p class="text-xs text-gray-500">人际关系专项咨询师</p>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">高敏感人群人际成长工坊</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        6周系统训练，帮助高敏感人群建立健康的人际边界，提升社交自信和沟通能力。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">5/12人</span>
+                        </div>
+                        <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">招募中</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>加密语音房间+共享白板</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>30天课程回看权限</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>一对一成长计划定制</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">报名参与</button>
+                </div>
+
+                <!-- 示例工坊3：情绪调节工坊 -->
+                <div class="bg-white rounded-lg shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">4周周期</span>
+                        <span class="text-sm text-gray-500">每周日 15:00-16:30</span>
+                    </div>
+                    <div class="flex items-center mb-3">
+                        <img src="./counselor3.png" alt="咨询师头像" class="w-10 h-10 rounded-full mr-2">
+                        <div>
+                            <h4 class="font-medium text-dark">王咨询师</h4>
+                            <p class="text-xs text-gray-500">情绪调节专项咨询师</p>
+                        </div>
+                    </div>
+                    <h3 class="font-medium text-dark mb-2">抑郁情绪调节成长工坊</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        4周短期工坊，学习抑郁情绪的识别与调节技巧，建立情绪支持系统。
+                    </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-users text-gray-400 mr-1"></i>
+                            <span class="text-sm">8/10人</span>
+                        </div>
+                        <span class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">已满6人开坊</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>加密语音房间+共享白板</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>30天课程回看权限</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check-circle text-success mr-2"></i>
+                            <span>一对一成长计划定制</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full">报名参与</button>
+                </div>
+            </div>
+
+            <!-- 我的工坊记录 -->
+            <div class="mt-8 bg-white rounded-lg shadow-card p-5">
+                <h3 class="font-medium text-dark mb-4 flex items-center">
+                    <i class="fa fa-bookmark text-gray-400 mr-2"></i>
+                    我的成长工坊
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-2 px-1 text-gray-600">工坊名称</th>
+                                <th class="text-left py-2 px-1 text-gray-600">咨询师</th>
+                                <th class="text-left py-2 px-1 text-gray-600">周期/时间</th>
+                                <th class="text-left py-2 px-1 text-gray-600">进度</th>
+                                <th class="text-left py-2 px-1 text-gray-600">回看权限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-1">情绪表达成长工坊</td>
+                                <td class="py-3 px-1">陈咨询师</td>
+                                <td class="py-3 px-1">4周 / 每周六 14:00</td>
+                                <td class="py-3 px-1">3/4 课时</td>
+                                <td class="py-3 px-1"><span class="text-green-600">剩余25天</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-1">职场抗压成长工坊</td>
+                                <td class="py-3 px-1">赵咨询师</td>
+                                <td class="py-3 px-1">8周 / 每周一 20:00</td>
+                                <td class="py-3 px-1">已完成</td>
+                                <td class="py-3 px-1"><span class="text-gray-400">已过期</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 移动端悬浮发帖按钮（复用） -->
+    <button class="btn-floating md:hidden" id="publish-btn-mobile">
+        <i class="fa fa-plus text-xl"></i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 发帖弹窗控制（复用index.html逻辑）
+        const publishModal = document.getElementById('publish-modal');
+        if (publishModal) {
+            document.getElementById('publish-btn-desktop').addEventListener('click', function() {
+                publishModal.classList.remove('hidden');
+            });
+            document.getElementById('publish-btn-mobile').addEventListener('click', function() {
+                publishModal.classList.remove('hidden');
+            });
+        }
+
+        // 标签切换逻辑
+        const tabButtons = document.querySelectorAll('[data-tab]');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 切换按钮样式
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                    btn.classList.remove('border-b-2', 'border-primary', 'text-primary');
+                });
+                this.classList.add('tab-active');
+                this.classList.remove('tab-inactive');
+                this.classList.add('border-b-2', 'border-primary', 'text-primary');
+
+                // 切换内容
+                const tabName = this.dataset.tab;
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tabName}-content`).classList.remove('hidden');
+                document.getElementById(`${tabName}-content`).classList.add('active');
+            });
+        });
+
+        // 工坊/小组报名按钮逻辑
+        const joinButtons = document.querySelectorAll('.btn-primary');
+        joinButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const text = this.textContent.trim();
+                if (text === '加入小组' || text === '预约加入' || text === '报名参与') {
+                    alert('报名成功！我们已将相关信息发送至你的消息中心，请及时查看。');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

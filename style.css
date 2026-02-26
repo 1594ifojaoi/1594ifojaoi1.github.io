@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1677FF;
+  --color-danger: #FF4D4F;
+  --color-success: #52C41A;
+  --color-warning: #FAAD14;
+  --color-light: #F5F7FA;
+  --color-dark: #333333;
+  --color-text-secondary: #999999;
+}
+
+/* 若未在 tailwind.config.js 配置自定义颜色，可在 CSS 中定义 */
+@layer base {
+  :root {
+    --color-primary: #1677FF;
+    --color-danger: #FF4D4F;
+    --color-success: #52C41A;
+    --color-warning: #FAAD14;
+  }
+}
+
+@layer utilities {
+  /* 通用基础类 */
+  .tag {
+    @apply px-2 py-1 rounded-md text-sm;
+  }
+  .badge {
+    @apply text-xs px-2 py-0.5 rounded-full;
+  }
+
+  /* 过渡动画 */
+  .card-transition {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* 标签 */
+  .tag-active {
+    @apply px-2 py-1 rounded-md text-sm bg-primary text-white;
+  }
+  .tag-inactive {
+    @apply px-2 py-1 rounded-md text-sm bg-gray-100 text-gray-600 hover:bg-gray-200;
+  }
+
+  /* 按钮 */
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 active:bg-primary/80 focus:ring-2 focus:ring-primary/30 transition-all;
+  }
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 active:bg-gray-100 focus:ring-2 focus:ring-gray-200 transition-all;
+  }
+
+  /* 悬浮按钮 */
+  .btn-floating {
+    @apply fixed right-6 bottom-6 md:right-8 md:bottom-8 w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary/90 active:bg-primary/80 transition-all z-50;
+  }
+  .btn-floating:disabled {
+    @apply bg-gray-400 cursor-not-allowed hover:bg-gray-400;
+  }
+
+  /* 徽章 */
+  .badge-unanswered {
+    @apply text-xs px-2 py-0.5 rounded-full bg-danger text-white;
+  }
+  .badge-answered {
+    @apply text-xs px-2 py-0.5 rounded-full bg-success text-white;
+  }
+  .badge-reward {
+    @apply text-xs px-2 py-0.5 rounded-full bg-warning text-white;
+  }
+}

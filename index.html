@@ -1,0 +1,627 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbour - 提问广场</title>
+    <link rel="stylesheet" href="style.css">>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+<header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo (替换为图片) -->
+        <div class="flex items-center space-x-2">
+            <img src="./logo.png" alt="EchoSafe Harbour Logo" class="w-10 h-10 rounded-full object-cover">
+            <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+        </div>
+        
+        <!-- 搜索框 -->
+        <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+            <div class="relative w-full">
+                <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- 导航链接（包含所有菜单项） -->
+        <nav class="hidden md:flex items-center space-x-6">
+            <a href="#" class="text-primary font-medium">提问广场</a>
+            <a href="ai-self-help.html" class="text-gray-600 hover:text-primary">AI自助</a>
+            <a href="my-questions.html" class="text-gray-600 hover:text-primary">我的提问</a>
+            <a href="my-answers.html" class="text-gray-600 hover:text-primary">我的回复</a>
+            <a href="anonymous-community.html" class="text-gray-600 hover:text-primary">匿名同伴社区</a>
+            <button id="publish-btn-desktop" class="btn-primary flex items-center">
+                <i class="fa fa-plus mr-2"></i>
+                <span>去提问</span>
+            </button>
+        </nav>
+        
+        <!-- 移动端菜单按钮 -->
+        <button class="md:hidden text-gray-600 focus:outline-none" id="mobile-menu-btn">
+            <i class="fa fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- 移动端搜索框 -->
+    <div class="md:hidden px-4 pb-3">
+        <div class="relative">
+            <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+            <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+    </div>
+    
+    <!-- 移动端菜单（只保留一个，包含所有菜单项） -->
+    <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+        <div class="container mx-auto px-4 py-2">
+            <nav class="flex flex-col space-y-3 py-2">
+                <a href="#" class="text-primary font-medium py-2">提问广场</a>
+                <a href="ai-self-help.html" class="text-gray-600 hover:text-primary py-2">AI自助</a>
+                <a href="my-questions.html" class="text-gray-600 hover:text-primary py-2">我的提问</a>
+                <a href="my-answers.html" class="text-gray-600 hover:text-primary py-2">我的回复</a>
+                <a href="anonymous-community.html" class="text-gray-600 hover:text-primary py-2">匿名同伴社区</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <!-- 主内容区 (保持不变) -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- 左侧筛选栏 (桌面端) -->
+            <aside class="hidden lg:block w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow-card p-4 sticky top-20">
+                    <h3 class="font-bold text-dark mb-4">情绪标签</h3>
+                    <div class="flex flex-wrap gap-2 mb-6" id="desktop-emotion-tags">
+                        <button class="tag-active rounded-full px-3 py-1 text-sm" data-tag="all">全部</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="anxiety">焦虑</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="depression">抑郁</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="interpersonal">人际</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="study">学业</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="work">职场</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm" data-tag="other">其他</button>
+                    </div>
+                    
+                    <h3 class="font-bold text-dark mb-4">问题状态</h3>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <input type="radio" id="status-all" name="status" checked="" class="mr-2 text-primary focus:ring-primary">
+                            <label for="status-all" class="text-gray-700">全部</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="status-unanswered" name="status" class="mr-2 text-primary focus:ring-primary">
+                            <label for="status-unanswered" class="text-gray-700">未回复</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="status-answered" name="status" class="mr-2 text-primary focus:ring-primary">
+                            <label for="status-answered" class="text-gray-700">已回复</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="status-reward" name="status" class="mr-2 text-primary focus:ring-primary">
+                            <label for="status-reward" class="text-gray-700">有悬赏</label>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-bold text-dark mb-4">排序方式</h3>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center">
+                            <input type="radio" id="sort-newest" name="sort" checked="" class="mr-2 text-primary focus:ring-primary">
+                            <label for="sort-newest" class="text-gray-700">最新发布</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="sort-reward" name="sort" class="mr-2 text-primary focus:ring-primary">
+                            <label for="sort-reward" class="text-gray-700">悬赏高低</label>
+                        </div>
+                    </div>
+                    
+                    <button class="text-primary text-sm hover:underline" id="reset-filter-desktop-btn">重置筛选</button>
+                </div>
+            </aside>
+            
+            <!-- 中间内容区 -->
+            <div class="flex-1">
+                <!-- 移动端筛选栏 -->
+                <div class="lg:hidden bg-white rounded-lg shadow-card p-4 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-dark">筛选条件</h3>
+                        <button class="text-primary text-sm hover:underline" id="reset-filter-btn">重置</button>
+                    </div>
+                    
+                    <div class="flex overflow-x-auto pb-2 mb-4 gap-2" id="mobile-emotion-tags">
+                        <button class="tag-active rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="all">全部</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="anxiety">焦虑</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="depression">抑郁</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="interpersonal">人际</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="study">学业</button>
+                        <button class="tag-inactive rounded-full px-3 py-1 text-sm whitespace-nowrap" data-tag="work">职场</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">问题状态</label>
+                            <select class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                                <option value="all">全部</option>
+                                <option value="unanswered">未回复</option>
+                                <option value="answered">已回复</option>
+                                <option value="reward">有悬赏</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">排序方式</label>
+                            <select class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                                <option value="newest">最新发布</option>
+                                <option value="reward">悬赏高低</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 问题列表 -->
+                <div class="space-y-4" id="questions-list">
+                    <!-- 未回复问题卡片 -->
+                    <div class="bg-light rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover hover:-translate-y-1 cursor-pointer">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="badge-unanswered mr-2">未回复</span>
+                                <span class="text-sm text-text-secondary">回声_1234 · 2小时前</span>
+                            </div>
+                            <span class="bg-blue-100 text-primary text-xs px-2 py-1 rounded-full">焦虑</span>
+                        </div>
+                        <h3 class="font-medium text-dark mb-2">最近总是感到莫名的紧张和不安，晚上难以入睡，该如何缓解这种焦虑情绪？</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">我最近工作压力比较大，总是担心自己做不好，晚上躺在床上脑子还在想工作的事情，翻来覆去睡不着。白天也会突然感到心跳加速，手心出汗，请问有什么方法可以缓解这种状况吗？</p>
+                        <div class="flex items-center justify-between text-text-secondary text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fa fa-comment-o mr-1"></i> 0回复</span>
+                                <span><i class="fa fa-thumbs-o-up mr-1"></i> 0</span>
+                            </div>
+                            <button class="text-primary hover:underline">悬赏升级</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 已回复问题卡片 -->
+                    <div class="bg-white rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover hover:-translate-y-1 cursor-pointer">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="badge-answered mr-2">已回复</span>
+                                <span class="text-sm text-text-secondary">回声_5678 · 昨天</span>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">人际</span>
+                        </div>
+                        <h3 class="font-medium text-dark mb-2">总是害怕与人交流，在社交场合感到紧张，该怎么克服社交恐惧？</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">我性格比较内向，总是害怕在公众场合发言，与陌生人交流时会感到紧张不安，甚至会脸红、口吃。我很想改变这种状况，请问有什么方法可以帮助我克服社交恐惧？</p>
+                        <div class="bg-gray-50 p-3 rounded-md mb-3">
+                            <div class="flex items-center mb-1">
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center mr-2">
+                                    <i class="fa fa-check-circle mr-1"></i>蓝V认证
+                                </span>
+                                <span class="text-sm font-medium">心灵港湾咨询中心</span>
+                            </div>
+                            <p class="text-gray-600 text-xs line-clamp-2">社交恐惧是很常见的心理困扰，建议您可以从以下几个方面入手：1. 小步慢行，从熟悉的人开始练习交流；2. 提前准备话题，减少紧张感；3. 练习深呼吸放松技巧...</p>
+                        </div>
+                        <div class="flex items-center justify-between text-text-secondary text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fa fa-comment-o mr-1"></i> 3回复</span>
+                                <span><i class="fa fa-thumbs-o-up mr-1"></i> 12</span>
+                            </div>
+                            <button class="text-primary hover:underline">查看详情</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 有悬赏问题卡片 -->
+                    <div class="bg-warning/5 rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover hover:-translate-y-1 cursor-pointer">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="badge-reward mr-2">有悬赏</span>
+                                <span class="text-sm text-text-secondary">回声_9012 · 3天前</span>
+                            </div>
+                            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full">职场</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-medium text-dark">工作中总是感到力不从心，担心被同事比下去，该如何调整心态？</h3>
+                            <span class="bg-warning/20 text-warning text-xs px-2 py-1 rounded-full flex items-center">
+                                <i class="fa fa-yen mr-1"></i>50元
+                            </span>
+                        </div>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">我在一家互联网公司工作，同事们都很优秀，我总是担心自己做不好工作，害怕被淘汰。最近项目压力很大，我感到力不从心，晚上经常加班到很晚，但效率却不高。我该如何调整这种焦虑的心态？</p>
+                        <div class="flex items-center justify-between text-text-secondary text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fa fa-comment-o mr-1"></i> 1回复</span>
+                                <span><i class="fa fa-thumbs-o-up mr-1"></i> 5</span>
+                            </div>
+                            <button class="text-primary hover:underline">查看详情</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 未回复问题卡片 -->
+                    <div class="bg-light rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover hover:-translate-y-1 cursor-pointer">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="badge-unanswered mr-2">未回复</span>
+                                <span class="text-sm text-text-secondary">回声_3456 · 4天前</span>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">学业</span>
+                        </div>
+                        <h3 class="font-medium text-dark mb-2">高考临近，压力很大，总是担心考不好，该如何调整状态？</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">我是一名高三学生，离高考只有不到两个月的时间了。最近我感到压力很大，上课注意力不集中，晚上复习时经常会感到烦躁和焦虑。我很担心自己考不好，对不起父母的期望。请问我该如何调整自己的状态？</p>
+                        <div class="flex items-center justify-between text-text-secondary text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fa fa-comment-o mr-1"></i> 0回复</span>
+                                <span><i class="fa fa-thumbs-o-up mr-1"></i> 2</span>
+                            </div>
+                            <button class="text-primary hover:underline">悬赏升级</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 已回复问题卡片 -->
+                    <div class="bg-white rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover hover:-translate-y-1 cursor-pointer">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="badge-answered mr-2">已回复</span>
+                                <span class="text-sm text-text-secondary">回声_7890 · 1周前</span>
+                            </div>
+                            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">抑郁</span>
+                        </div>
+                        <h3 class="font-medium text-dark mb-2">最近总是感到情绪低落，对什么事情都提不起兴趣，是不是得了抑郁症？</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">最近一个月来，我总是感到情绪低落，对以前喜欢的事情也提不起兴趣，经常感到疲倦和无力。晚上睡眠质量不好，有时候会早醒。我担心自己是不是得了抑郁症，但又不敢去看医生。请问我该怎么办？</p>
+                        <div class="bg-gray-50 p-3 rounded-md mb-3">
+                            <div class="flex items-center mb-1">
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center mr-2">
+                                    <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                                </span>
+                                <span class="text-sm font-medium">李医生</span>
+                            </div>
+                            <p class="text-gray-600 text-xs line-clamp-2">您描述的症状确实与抑郁症的某些表现相似，但仅凭这些症状还不能确诊。建议您：1. 先尝试自我调节，保持规律作息；2. 多与亲友交流，不要独处；3. 如果症状持续超过两周，建议尽早就医...</p>
+                        </div>
+                        <div class="flex items-center justify-between text-text-secondary text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fa fa-comment-o mr-1"></i> 5回复</span>
+                                <span><i class="fa fa-thumbs-o-up mr-1"></i> 18</span>
+                            </div>
+                            <button class="text-primary hover:underline">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="flex justify-center mt-8">
+                    <nav class="flex items-center space-x-1">
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                        <button class="px-3 py-1 rounded-md bg-primary text-white">1</button>
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">3</button>
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">...</button>
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">10</button>
+                        <button class="px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">
+                            <i class="fa fa-angle-right"></i>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- 右侧快捷入口 (仅桌面端) -->
+            <aside class="hidden xl:block w-72 flex-shrink-0">
+                <!-- 咨询师抢答池入口 -->
+                <div class="bg-white rounded-lg shadow-card p-4 mb-6 sticky top-20">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-dark">抢答池</h3>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">咨询师专属</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">查看最新的未回复问题，立即开始抢答</p>
+                    <button class="btn-primary w-full mb-3">
+                        <i class="fa fa-bolt mr-2"></i>
+                        进入抢答池
+                    </button>
+                    <div class="flex items-center justify-between text-xs text-text-secondary">
+                        <span>今日新增: 28</span>
+                        <span>待回复: 42</span>
+                    </div>
+                </div>
+                
+                <!-- 快捷入口 -->
+                <div class="bg-white rounded-lg shadow-card p-4">
+                    <h3 class="font-bold text-dark mb-4">快捷入口</h3>
+                    <div class="space-y-3">
+                        <a href="my-questions.html" class="flex items-center justify-between p-3 rounded-md hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fa fa-question text-primary"></i>
+                                </div>
+                                <span class="text-gray-700">我的提问</span>
+                            </div>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">12</span>
+                        </a>
+                        <a href="my-answers.html" class="flex items-center justify-between p-3 rounded-md hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                    <i class="fa fa-comment text-success"></i>
+                                </div>
+                                <span class="text-gray-700">我的回复</span>
+                            </div>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">8</span>
+                        </a>
+                        <a href="#" class="flex items-center justify-between p-3 rounded-md hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                                    <i class="fa fa-star text-warning"></i>
+                                </div>
+                                <span class="text-gray-700">我的收藏</span>
+                            </div>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">5</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <!-- 移动端悬浮发帖按钮 -->
+    <button class="btn-floating md:hidden" id="publish-btn-mobile">
+        <i class="fa fa-plus text-xl"></i>
+    </button>
+    
+    <!-- 发帖弹窗 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="publish-modal">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-5">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-dark">发布问题</h3>
+                    <button class="text-gray-400 hover:text-gray-600" id="close-modal-btn">
+                        <i class="fa fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="publish-form">
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">随机昵称</label>
+                        <div class="flex">
+                            <input type="text" value="回声_1234" class="flex-1 border border-gray-200 rounded-l-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                            <button type="button" class="bg-gray-100 text-gray-600 px-3 py-2 rounded-r-md hover:bg-gray-200 text-sm">
+                                <i class="fa fa-refresh mr-1"></i>换一个
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">情绪标签 <span class="text-danger">*</span></label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">焦虑</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">抑郁</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">人际</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">学业</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">职场</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">其他</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">问题标题 <span class="text-danger">*</span></label>
+                        <input type="text" placeholder="请用精简的语言概括你的问题（20字以内）" class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" maxlength="20" id="question-title">
+                        <div class="flex justify-end mt-1">
+                            <span class="text-xs text-text-secondary" id="title-char-count">0/20</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">问题描述 <span class="text-danger">*</span></label>
+                        <textarea placeholder="请详细描述你的问题，10-200字" class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary h-32" maxlength="200" id="question-description"></textarea>
+                        <div class="flex justify-end mt-1">
+                            <span class="text-xs text-text-secondary" id="description-char-count">0/200</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <button type="button" class="text-primary text-sm hover:underline flex items-center" id="toggle-notice-btn">
+                            <i class="fa fa-info-circle mr-1"></i>
+                            查看发布须知
+                        </button>
+                        <div class="hidden mt-2 p-3 bg-gray-50 rounded-md text-xs text-gray-600" id="notice-content">
+                            所有回答由资质专家/志愿者自愿提供，5-7天内可能无即时响应，内容仅作专业参考。平台严格保护用户隐私，所有提问均为匿名发布。
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" class="btn-secondary" id="cancel-publish-btn">取消</button>
+                        <button type="button" class="btn-primary opacity-50 cursor-not-allowed" id="submit-publish-btn" disabled="">发布</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 发布成功提示 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="success-toast">
+        <div class="bg-white rounded-xl p-6 w-80 text-center">
+            <div class="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4">
+                <i class="fa fa-check text-2xl text-success"></i>
+            </div>
+            <h3 class="font-bold text-dark mb-2">发布成功！</h3>
+            <p class="text-sm text-gray-600 mb-4">你的问题已进入抢答池～</p>
+        </div>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 发帖弹窗控制
+        const publishModal = document.getElementById('publish-modal');
+        const successToast = document.getElementById('success-toast');
+        
+        document.getElementById('publish-btn-desktop').addEventListener('click', function() {
+            publishModal.classList.remove('hidden');
+        });
+        
+        document.getElementById('publish-btn-mobile').addEventListener('click', function() {
+            publishModal.classList.remove('hidden');
+        });
+        
+        document.getElementById('close-modal-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+        });
+        
+        document.getElementById('cancel-publish-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+        });
+        
+        // 发布须知切换
+        document.getElementById('toggle-notice-btn').addEventListener('click', function() {
+            const noticeContent = document.getElementById('notice-content');
+            noticeContent.classList.toggle('hidden');
+        });
+
+        // 核心修复：情绪标签选中逻辑
+        function initEmotionTags(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const tags = container.querySelectorAll('button');
+            tags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    tags.forEach(t => {
+                        t.classList.remove('tag-active');
+                        t.classList.add('tag-inactive');
+                    });
+                    this.classList.remove('tag-inactive');
+                    this.classList.add('tag-active');
+                    console.log('选中标签:', this.dataset.tag);
+                });
+            });
+        }
+
+        // 初始化桌面端标签
+        initEmotionTags('desktop-emotion-tags');
+        // 初始化移动端标签
+        initEmotionTags('mobile-emotion-tags');
+        
+        // 发帖弹窗中的标签选择
+        const publishTags = document.querySelectorAll('.publish-tag');
+        publishTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                publishTags.forEach(t => {
+                    t.classList.remove('tag-active');
+                    t.classList.add('tag-inactive');
+                });
+                this.classList.remove('tag-inactive');
+                this.classList.add('tag-active');
+                checkFormValidity();
+            });
+        });
+        
+        // 标题字数统计
+        const titleInput = document.getElementById('question-title');
+        const titleCharCount = document.getElementById('title-char-count');
+        
+        titleInput.addEventListener('input', function() {
+            const count = this.value.length;
+            titleCharCount.textContent = `${count}/20`;
+            checkFormValidity();
+        });
+        
+        // 描述字数统计
+        const descriptionTextarea = document.getElementById('question-description');
+        const descriptionCharCount = document.getElementById('description-char-count');
+        
+        descriptionTextarea.addEventListener('input', function() {
+            const count = this.value.length;
+            descriptionCharCount.textContent = `${count}/200`;
+            checkFormValidity();
+        });
+        
+        // 检查表单是否可提交
+        function checkFormValidity() {
+            const selectedTag = document.querySelector('.publish-tag.tag-active');
+            const titleValue = titleInput.value.trim();
+            const descriptionValue = descriptionTextarea.value.trim();
+            const submitButton = document.getElementById('submit-publish-btn');
+            
+            if (selectedTag && titleValue.length > 0 && titleValue.length <= 20 && descriptionValue.length >= 10 && descriptionValue.length <= 200) {
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+        
+        // 提交表单
+        document.getElementById('submit-publish-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+            successToast.classList.remove('hidden');
+            setTimeout(() => {
+                successToast.classList.add('hidden');
+            }, 3000);
+        });
+        
+        // 点击问题卡片跳转到详情页
+        const questionCards = document.querySelectorAll('#questions-list > div');
+        questionCards.forEach(card => {
+            card.addEventListener('click', function() {
+                window.location.href = 'detail.html';
+            });
+        });
+        
+        // 点击悬赏升级按钮
+        const rewardButtons = document.querySelectorAll('.text-primary.hover\\:underline');
+        rewardButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('悬赏升级功能将在详情页中提供');
+            });
+        });
+        
+        // 重置筛选条件
+        function resetFilters() {
+            // 重置桌面端情绪标签
+            const desktopTags = document.querySelectorAll('#desktop-emotion-tags button');
+            desktopTags.forEach((tag, index) => {
+                if (index === 0) {
+                    tag.classList.remove('tag-inactive');
+                    tag.classList.add('tag-active');
+                } else {
+                    tag.classList.remove('tag-active');
+                    tag.classList.add('tag-inactive');
+                }
+            });
+
+            // 重置移动端情绪标签
+            const mobileTags = document.querySelectorAll('#mobile-emotion-tags button');
+            mobileTags.forEach((tag, index) => {
+                if (index === 0) {
+                    tag.classList.remove('tag-inactive');
+                    tag.classList.add('tag-active');
+                } else {
+                    tag.classList.remove('tag-active');
+                    tag.classList.add('tag-inactive');
+                }
+            });
+            
+            // 重置问题状态（选择全部）
+            document.getElementById('status-all').checked = true;
+            
+            // 重置排序方式（选择最新发布）
+            document.getElementById('sort-newest').checked = true;
+            
+            // 重置移动端下拉选择
+            const mobileSelects = document.querySelectorAll('select');
+            mobileSelects.forEach(select => {
+                if (select.options[0]) {
+                    select.selectedIndex = 0;
+                }
+            });
+            
+            alert('筛选条件已重置');
+        }
+        
+        // 绑定重置按钮事件
+        document.getElementById('reset-filter-btn').addEventListener('click', resetFilters);
+        document.getElementById('reset-filter-desktop-btn').addEventListener('click', resetFilters);
+    </script>
+</body>
+</html>

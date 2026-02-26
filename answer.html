@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbor - 咨询师回复</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1677FF',
+                        danger: '#FF4D4F',
+                        success: '#52C41A',
+                        warning: '#FAAD14',
+                        light: '#F5F7FA',
+                        dark: '#333333',
+                        'text-secondary': '#999999'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 2px 8px rgba(0, 0, 0, 0.08)',
+                        'card-hover': '0 4px 16px rgba(0, 0, 0, 0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-transition {
+                transition: all 0.3s ease;
+            }
+            .tag-active {
+                @apply bg-primary text-white;
+            }
+            .tag-inactive {
+                @apply bg-gray-100 text-gray-600 hover:bg-gray-200;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-all;
+            }
+            .btn-floating {
+                @apply fixed right-6 bottom-6 w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary/90 transition-all z-50;
+            }
+            .badge-unanswered {
+                @apply bg-danger text-white text-xs px-2 py-0.5 rounded-full;
+            }
+            .badge-answered {
+                @apply bg-success text-white text-xs px-2 py-0.5 rounded-full;
+            }
+            .badge-reward {
+                @apply bg-warning text-white text-xs px-2 py-0.5 rounded-full;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                        <i class="fa fa-heart-o text-white"></i>
+                    </div>
+                    <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+                <div class="relative w-full">
+                    <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 导航链接 -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-primary">提问广场</a>
+                <a href="#" class="text-primary font-medium">抢答池</a>
+                <a href="#" class="text-gray-600 hover:text-primary">我的回复</a>
+                <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center">
+                    <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                </span>
+            </nav>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden text-gray-600 focus:outline-none" id="mobile-menu-btn">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端搜索框 -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+            <div class="container mx-auto px-4 py-2">
+                <nav class="flex flex-col space-y-3 py-2">
+                    <a href="index.html" class="text-gray-600 hover:text-primary py-2">提问广场</a>
+                    <a href="#" class="text-primary font-medium py-2">抢答池</a>
+                    <a href="#" class="text-gray-600 hover:text-primary py-2">我的回复</a>
+                    <div class="flex items-center py-2">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center">
+                            <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- 中间内容区 -->
+            <div class="flex-1">
+                <!-- 问题详情卡片 -->
+                <div class="bg-white rounded-lg shadow-card p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <span class="badge-unanswered mr-2">未回复</span>
+                        <span class="text-sm text-text-secondary">回声_1234 · 2小时前</span>
+                    </div>
+                    
+                    <h1 class="text-xl font-bold text-dark mb-4">最近总是感到莫名的紧张和不安，晚上难以入睡，该如何缓解这种焦虑情绪？</h1>
+                    
+                    <div class="text-gray-700 mb-4">
+                        <p class="mb-3">我最近工作压力比较大，总是担心自己做不好，晚上躺在床上脑子还在想工作的事情，翻来覆去睡不着。</p>
+                        <p class="mb-3">白天也会突然感到心跳加速，手心出汗，特别是在开会或者需要在同事面前发言的时候。</p>
+                        <p>我尝试过听音乐和深呼吸，但效果不是很明显。请问有什么方法可以缓解这种焦虑状况吗？</p>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <span class="bg-blue-100 text-primary text-xs px-2 py-1 rounded-full mr-2">焦虑</span>
+                        <span class="text-sm text-text-secondary">标签: 焦虑, 睡眠, 职场压力</span>
+                    </div>
+                </div>
+                
+                <!-- 回复编辑区 -->
+                <div class="bg-white rounded-lg shadow-card p-6 mb-6">
+                    <h2 class="text-lg font-bold text-dark mb-4">我来回复</h2>
+                    
+                    <div class="mb-4">
+                        <textarea placeholder="请基于专业知识提供解答，内容将公开展示，可作为平台知识资产（60-600字）" class="w-full border border-gray-200 rounded-md px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary h-48" id="answer-textarea" maxlength="600"></textarea>
+                        <div class="flex justify-between mt-2">
+                            <span class="text-xs text-text-secondary">请基于专业知识提供解答，内容将公开展示，可作为平台知识资产</span>
+                            <span class="text-xs text-text-secondary" id="char-count">0/600</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button class="btn-secondary" id="preview-btn">预览</button>
+                        <button class="btn-primary opacity-50 cursor-not-allowed" id="submit-btn" disabled>提交回复</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 预览弹窗 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="preview-modal">
+        <div class="bg-white rounded-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-5">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-dark">回复预览</h3>
+                    <button class="text-gray-400 hover:text-gray-600" id="close-preview-modal-btn">
+                        <i class="fa fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="border-b border-gray-100 pb-4 mb-4">
+                    <div class="flex items-start mb-3">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-user-md text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="font-medium text-dark mr-2">李医生</span>
+                                <span class="bg-green-100 text-green-600 text-xs px-2 py-0.5 rounded-full flex items-center">
+                                    <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                                </span>
+                            </div>
+                            <p class="text-xs text-text-secondary">刚刚回复</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-gray-700 mb-4" id="preview-content">
+                    <!-- 预览内容将在这里显示 -->
+                </div>
+                
+                <div class="flex justify-end">
+                    <button class="btn-primary" id="confirm-submit-btn">确认提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 提交成功提示 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="success-toast">
+        <div class="bg-white rounded-xl p-6 w-80 text-center">
+            <div class="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4">
+                <i class="fa fa-check text-2xl text-success"></i>
+            </div>
+            <h3 class="font-bold text-dark mb-2">回复成功！</h3>
+            <p class="text-sm text-gray-600 mb-4">内容已公开至问题详情页</p>
+            <button class="btn-primary" id="back-to-square-btn">返回广场</button>
+        </div>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 文本域字数统计
+        const textarea = document.getElementById('answer-textarea');
+        const charCount = document.getElementById('char-count');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        textarea.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = `${count}/600`;
+            
+            // 启用/禁用提交按钮
+            if (count >= 60 && count <= 600) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+        
+        // 预览弹窗控制
+        const previewModal = document.getElementById('preview-modal');
+        const previewContent = document.getElementById('preview-content');
+        
+        document.getElementById('preview-btn').addEventListener('click', function() {
+            const content = textarea.value.trim();
+            if (content.length < 60) {
+                alert('回复内容至少需要60字');
+                return;
+            }
+            
+            // 将文本内容转换为HTML格式（保留换行）
+            const formattedContent = content.replace(/\n/g, '<br>');
+            previewContent.innerHTML = formattedContent;
+            
+            previewModal.classList.remove('hidden');
+        });
+        
+        document.getElementById('close-preview-modal-btn').addEventListener('click', function() {
+            previewModal.classList.add('hidden');
+        });
+        
+        // 确认提交
+        const successToast = document.getElementById('success-toast');
+        
+        document.getElementById('confirm-submit-btn').addEventListener('click', function() {
+            previewModal.classList.add('hidden');
+            successToast.classList.remove('hidden');
+        });
+        
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const content = textarea.value.trim();
+            if (content.length < 60) {
+                alert('回复内容至少需要60字');
+                return;
+            }
+            
+            // 将文本内容转换为HTML格式（保留换行）
+            const formattedContent = content.replace(/\n/g, '<br>');
+            previewContent.innerHTML = formattedContent;
+            
+            previewModal.classList.remove('hidden');
+        });
+        
+        // 返回广场
+        document.getElementById('back-to-square-btn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

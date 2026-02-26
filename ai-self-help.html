@@ -1,0 +1,398 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbour - AI自助（24小时情绪支持）</title>
+    <link href="./style.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+<header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo (替换为图片) -->
+        <div class="flex items-center space-x-2">
+            <img src="./logo.png" alt="EchoSafe Harbour Logo" class="w-10 h-10 rounded-full object-cover">
+            <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+        </div>
+        
+        <!-- 搜索框 -->
+        <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+            <div class="relative w-full">
+                <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- 导航链接（包含所有菜单项） -->
+        <nav class="hidden md:flex items-center space-x-6">
+            <a href="#" class="text-primary font-medium">提问广场</a>
+            <a href="ai-self-help.html" class="text-gray-600 hover:text-primary">AI自助</a>
+            <a href="my-questions.html" class="text-gray-600 hover:text-primary">我的提问</a>
+            <a href="my-answers.html" class="text-gray-600 hover:text-primary">我的回复</a>
+            <a href="anonymous-community.html" class="text-gray-600 hover:text-primary">匿名同伴社区</a>
+            <button id="publish-btn-desktop" class="btn-primary flex items-center">
+                <i class="fa fa-plus mr-2"></i>
+                <span>去提问</span>
+            </button>
+        </nav>
+        
+        <!-- 移动端菜单按钮 -->
+        <button class="md:hidden text-gray-600 focus:outline-none" id="mobile-menu-btn">
+            <i class="fa fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- 移动端搜索框 -->
+    <div class="md:hidden px-4 pb-3">
+        <div class="relative">
+            <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+            <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+    </div>
+    
+    <!-- 移动端菜单（只保留一个，包含所有菜单项） -->
+    <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+        <div class="container mx-auto px-4 py-2">
+            <nav class="flex flex-col space-y-3 py-2">
+                <a href="#" class="text-primary font-medium py-2">提问广场</a>
+                <a href="ai-self-help.html" class="text-gray-600 hover:text-primary py-2">AI自助</a>
+                <a href="my-questions.html" class="text-gray-600 hover:text-primary py-2">我的提问</a>
+                <a href="my-answers.html" class="text-gray-600 hover:text-primary py-2">我的回复</a>
+                <a href="anonymous-community.html" class="text-gray-600 hover:text-primary py-2">匿名同伴社区</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- AI自助介绍区 -->
+        <section class="bg-white rounded-lg shadow-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-dark mb-4 flex items-center">
+                <i class="fa fa-robot text-primary mr-2"></i>
+                AI自助（24小时情绪支持）
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-gray-700 mb-3">
+                        我们的AI从「记录助手」进化为「心理导航员」，基于200万条脱敏高校咨询对话、ICD-11情绪障碍知识图谱及2024《中国心理健康蓝皮书》循证技术训练，既懂专业又有温度。
+                    </p>
+                    <ul class="text-gray-700 space-y-2 list-disc pl-5 mb-4">
+                        <li>回复前通过自杀/自伤关键词风险检验，确保安全</li>
+                        <li>每句话匹配循证技术标签，有理论出处不空洞</li>
+                        <li>动态绘制情绪图谱，可视化心理状态趋势</li>
+                        <li>生成个性化成长路径，推荐正念练习、认知调整课程</li>
+                        <li>每周模型微调，适配你的心理特征持续进化</li>
+                    </ul>
+                    <!-- 免责声明 -->
+                    <div class="bg-warning/10 rounded-md p-3 text-sm text-warning">
+                        <i class="fa fa-exclamation-triangle mr-1"></i>
+                        <strong>免责声明：</strong>AI提供的建议仅供参考，不能替代专业医疗诊断或心理咨询服务。如遇严重心理危机，请及时联系专业机构或人员。
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <!-- 情绪仪表盘示意图 -->
+                    <div class="w-full max-w-xs">
+                        <h4 class="text-center font-medium mb-2">你的情绪仪表盘</h4>
+                        <div class="relative h-48 w-full">
+                            <!-- 简易折线图模拟情绪趋势 -->
+                            <svg class="w-full h-full" viewBox="0 0 200 150">
+                                <path d="M20,75 L40,60 L60,80 L80,50 L100,90 L120,70 L140,65 L160,85 L180,70" 
+                                      stroke="#4F46E5" stroke-width="3" fill="none"></path>
+                                <path d="M20,75 L40,60 L60,80 L80,50 L100,90 L120,70 L140,65 L160,85 L180,70" 
+                                      stroke="#4F46E5" stroke-width="1" fill="rgba(79, 70, 229, 0.1)"></path>
+                                <text x="100" y="120" text-anchor="middle" class="text-xs text-gray-600">近7天情绪趋势</text>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-600 mt-2">
+                            <span>焦虑</span>
+                            <span>抑郁</span>
+                            <span>平静</span>
+                            <span>愉悦</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI对话交互区 -->
+        <section class="bg-white rounded-lg shadow-card p-6 mb-6">
+            <h3 class="text-lg font-bold text-dark mb-4">和AI心理导航员聊聊</h3>
+            <div class="flex flex-col h-[400px] md:h-[500px]">
+                <!-- 对话列表 -->
+                <div class="flex-1 overflow-y-auto bg-gray-50 rounded-md p-4 mb-4 space-y-4" id="ai-chat-list">
+                    <!-- 系统欢迎语 -->
+                    <div class="flex flex-col items-start">
+                        <div class="bg-primary/10 text-primary rounded-lg rounded-tl-none px-4 py-2 max-w-[80%]">
+                            <p class="text-sm">你好呀 😊 我是你的AI心理导航员，随时都在。可以和我说说你的心事、情绪，或者想聊聊任何让你困扰的事情～</p>
+                            <p class="text-xs text-primary/70 mt-1">基于循证技术回复 | 24小时在线</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 输入区 -->
+                <div class="flex gap-2">
+                    <textarea placeholder="请描述你的情绪或问题（比如：最近工作压力大，总是焦虑睡不着）..." 
+                              class="flex-1 border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary h-16 resize-none"
+                              id="ai-chat-input"></textarea>
+                    <button class="btn-primary shrink-0 h-16 px-4" id="ai-chat-send">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 自助内容推荐区 -->
+        <section class="bg-white rounded-lg shadow-card p-6">
+            <h3 class="text-lg font-bold text-dark mb-4">为你推荐的自助内容</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- 正念练习 -->
+                <div class="border border-gray-100 rounded-lg p-4 hover:shadow-card-hover transition-shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                            <i class="fa fa-leaf text-green-600"></i>
+                        </div>
+                        <h4 class="font-medium">5分钟正念呼吸练习</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">缓解即时焦虑，专注当下，平复情绪波动</p>
+                    <a href="#" class="text-primary text-sm hover:underline flex items-center">
+                        开始练习 <i class="fa fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <!-- 认知调整课程 -->
+                <div class="border border-gray-100 rounded-lg p-4 hover:shadow-card-hover transition-shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i class="fa fa-book text-primary"></i>
+                        </div>
+                        <h4 class="font-medium">认知重构入门课程</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">识别负面思维模式，调整非理性信念</p>
+                    <a href="#" class="text-primary text-sm hover:underline flex items-center">
+                        开始学习 <i class="fa fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <!-- 情绪日记模板 -->
+                <div class="border border-gray-100 rounded-lg p-4 hover:shadow-card-hover transition-shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                            <i class="fa fa-pencil text-yellow-600"></i>
+                        </div>
+                        <h4 class="font-medium">情绪日记模板</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">记录情绪触发点，梳理想法和感受</p>
+                    <a href="#" class="text-primary text-sm hover:underline flex items-center">
+                        下载模板 <i class="fa fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 移动端悬浮发帖按钮 -->
+    <button class="btn-floating md:hidden" id="publish-btn-mobile">
+        <i class="fa fa-plus text-xl"></i>
+    </button>
+
+    <!-- 发帖弹窗（复用index.html的弹窗） -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="publish-modal">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-5">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-dark">发布问题</h3>
+                    <button class="text-gray-400 hover:text-gray-600" id="close-modal-btn">
+                        <i class="fa fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="publish-form">
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">随机昵称</label>
+                        <div class="flex">
+                            <input type="text" value="回声_1234" class="flex-1 border border-gray-200 rounded-l-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                            <button type="button" class="bg-gray-100 text-gray-600 px-3 py-2 rounded-r-md hover:bg-gray-200 text-sm">
+                                <i class="fa fa-refresh mr-1"></i>换一个
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">情绪标签 <span class="text-danger">*</span></label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">焦虑</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">抑郁</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">人际</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">学业</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">职场</button>
+                            <button type="button" class="tag-inactive rounded-md px-3 py-2 text-sm text-center publish-tag">其他</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">问题标题 <span class="text-danger">*</span></label>
+                        <input type="text" placeholder="请用精简的语言概括你的问题（20字以内）" class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" maxlength="20" id="question-title">
+                        <div class="flex justify-end mt-1">
+                            <span class="text-xs text-text-secondary" id="title-char-count">0/20</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">问题描述 <span class="text-danger">*</span></label>
+                        <textarea placeholder="请详细描述你的问题，10-200字" class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary h-32" maxlength="200" id="question-description"></textarea>
+                        <div class="flex justify-end mt-1">
+                            <span class="text-xs text-text-secondary" id="description-char-count">0/200</span>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <button type="button" class="text-primary text-sm hover:underline flex items-center" id="toggle-notice-btn">
+                            <i class="fa fa-info-circle mr-1"></i>
+                            查看发布须知
+                        </button>
+                        <div class="hidden mt-2 p-3 bg-gray-50 rounded-md text-xs text-gray-600" id="notice-content">
+                            所有回答由资质专家/志愿者自愿提供，5-7天内可能无即时响应，内容仅作专业参考。平台严格保护用户隐私，所有提问均为匿名发布。
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" class="btn-secondary" id="cancel-publish-btn">取消</button>
+                        <button type="button" class="btn-primary opacity-50 cursor-not-allowed" id="submit-publish-btn" disabled="">发布</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 发帖弹窗控制（复用逻辑）
+        const publishModal = document.getElementById('publish-modal');
+        document.getElementById('publish-btn-desktop').addEventListener('click', function() {
+            publishModal.classList.remove('hidden');
+        });
+        document.getElementById('publish-btn-mobile').addEventListener('click', function() {
+            publishModal.classList.remove('hidden');
+        });
+        document.getElementById('close-modal-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+        });
+        document.getElementById('cancel-publish-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+        });
+
+        // 发布须知切换
+        document.getElementById('toggle-notice-btn').addEventListener('click', function() {
+            const noticeContent = document.getElementById('notice-content');
+            noticeContent.classList.toggle('hidden');
+        });
+
+        // AI对话交互逻辑
+        const chatList = document.getElementById('ai-chat-list');
+        const chatInput = document.getElementById('ai-chat-input');
+        const chatSendBtn = document.getElementById('ai-chat-send');
+
+        // 发送消息
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // 添加用户消息
+            const userMessage = document.createElement('div');
+            userMessage.className = 'flex flex-col items-end';
+            userMessage.innerHTML = `
+                <div class="bg-primary text-white rounded-lg rounded-tr-none px-4 py-2 max-w-[80%]">
+                    <p class="text-sm">${message}</p>
+                </div>
+            `;
+            chatList.appendChild(userMessage);
+
+            // 清空输入框
+            chatInput.value = '';
+            // 滚动到底部
+            chatList.scrollTop = chatList.scrollHeight;
+
+            // 模拟AI回复（实际项目中替换为接口请求）
+            setTimeout(() => {
+                const aiReply = document.createElement('div');
+                aiReply.className = 'flex flex-col items-start';
+                aiReply.innerHTML = `
+                    <div class="bg-primary/10 text-primary rounded-lg rounded-tl-none px-4 py-2 max-w-[80%]">
+                        <p class="text-sm">
+                            谢谢你愿意分享这些感受 😌 从你的描述中能感受到你现在的${message.includes('压力') ? '压力感' : message.includes('焦虑') ? '焦虑情绪' : '情绪困扰'}，
+                            这是很正常的反应。根据认知行为疗法（CBT）的循证方法，你可以先尝试「5分钟正念呼吸」练习，帮你快速平复当下的情绪。
+                            我也会把你的情绪记录到仪表盘，后续为你生成更贴合的自助方案。
+                        </p>
+                        <p class="text-xs text-primary/70 mt-1">基于循证技术回复 | 已通过风险检验</p>
+                    </div>
+                `;
+                chatList.appendChild(aiReply);
+                // 滚动到底部
+                chatList.scrollTop = chatList.scrollHeight;
+            }, 1000);
+        }
+
+        // 绑定发送按钮事件
+        chatSendBtn.addEventListener('click', sendChatMessage);
+        // 回车发送
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        // 表单验证逻辑（复用）
+        const titleInput = document.getElementById('question-title');
+        const titleCharCount = document.getElementById('title-char-count');
+        const descriptionTextarea = document.getElementById('question-description');
+        const descriptionCharCount = document.getElementById('description-char-count');
+        const submitButton = document.getElementById('submit-publish-btn');
+        const publishTags = document.querySelectorAll('.publish-tag');
+
+        titleInput.addEventListener('input', function() {
+            const count = this.value.length;
+            titleCharCount.textContent = `${count}/20`;
+            checkFormValidity();
+        });
+
+        descriptionTextarea.addEventListener('input', function() {
+            const count = this.value.length;
+            descriptionCharCount.textContent = `${count}/200`;
+            checkFormValidity();
+        });
+
+        publishTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                publishTags.forEach(t => {
+                    t.classList.remove('tag-active');
+                    t.classList.add('tag-inactive');
+                });
+                this.classList.remove('tag-inactive');
+                this.classList.add('tag-active');
+                checkFormValidity();
+            });
+        });
+
+        function checkFormValidity() {
+            const selectedTag = document.querySelector('.publish-tag.tag-active');
+            const titleValue = titleInput.value.trim();
+            const descriptionValue = descriptionTextarea.value.trim();
+            
+            if (selectedTag && titleValue.length > 0 && titleValue.length <= 20 && descriptionValue.length >= 10 && descriptionValue.length <= 200) {
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // 提交表单逻辑
+        document.getElementById('submit-publish-btn').addEventListener('click', function() {
+            publishModal.classList.add('hidden');
+            // 模拟发布成功提示
+            alert('问题发布成功！');
+        });
+    </script>
+</body>
+</html>

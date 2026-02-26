@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbor - 问题详情</title>
+    <link href="./style.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                        <i class="fa fa-heart-o text-white"></i>
+                    </div>
+                    <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+                <div class="relative w-full">
+                    <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 导航链接 -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-primary">提问广场</a>
+                <a href="#" class="text-gray-600 hover:text-primary">我的提问</a>
+                <a href="#" class="text-gray-600 hover:text-primary">我的回复</a>
+                <button class="btn-primary flex items-center">
+                    <i class="fa fa-plus mr-2"></i>
+                    <span>去提问</span>
+                </button>
+            </nav>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden text-gray-600 focus:outline-none" id="mobile-menu-btn">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端搜索框 -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" placeholder="搜索问题或标签..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+            <div class="container mx-auto px-4 py-2">
+                <nav class="flex flex-col space-y-3 py-2">
+                    <a href="index.html" class="text-gray-600 hover:text-primary py-2">提问广场</a>
+                    <a href="#" class="text-gray-600 hover:text-primary py-2">我的提问</a>
+                    <a href="#" class="text-gray-600 hover:text-primary py-2">我的回复</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- 中间内容区 -->
+            <div class="flex-1">
+                <!-- 问题详情卡片 -->
+                <div class="bg-white rounded-lg shadow-card p-6 mb-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="badge-unanswered mr-2">未回复</span>
+                            <span class="text-sm text-text-secondary">回声_1234 · 2小时前</span>
+                        </div>
+                        <span class="bg-blue-100 text-primary text-xs px-2 py-1 rounded-full">焦虑</span>
+                    </div>
+                    
+                    <h1 class="text-xl font-bold text-dark mb-4">最近总是感到莫名的紧张和不安，晚上难以入睡，该如何缓解这种焦虑情绪？</h1>
+                    
+                    <div class="text-gray-700 mb-6">
+                        <p class="mb-3">我最近工作压力比较大，总是担心自己做不好，晚上躺在床上脑子还在想工作的事情，翻来覆去睡不着。</p>
+                        <p class="mb-3">白天也会突然感到心跳加速，手心出汗，特别是在开会或者需要在同事面前发言的时候。</p>
+                        <p>我尝试过听音乐和深呼吸，但效果不是很明显。请问有什么方法可以缓解这种焦虑状况吗？</p>
+                    </div>
+                    
+                    <!-- 悬赏升级区 (仅未回复问题显示) -->
+                    <div class="bg-warning/5 p-4 rounded-lg mb-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-medium text-dark">悬赏升级</h3>
+                            <p class="text-sm text-gray-600">提升问题优先级，获得更快回复</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">积分悬赏</label>
+                                <select class="w-full border border-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                                    <option value="">选择积分数量</option>
+                                    <option value="10">10积分</option>
+                                    <option value="20">20积分</option>
+                                    <option value="50">50积分</option>
+                                    <option value="100">100积分</option>
+                                </select>
+                                <p class="text-xs text-text-secondary mt-1">当前可用积分: 250</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">现金悬赏</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500">¥</span>
+                                    <input type="number" placeholder="最低1元" min="1" class="w-full border border-gray-200 rounded-md pl-8 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                                </div>
+                                <p class="text-xs text-text-secondary mt-1">支持微信/支付宝支付</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full">确认悬赏</button>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-text-secondary text-sm">
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center hover:text-primary">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>
+                                <span>点赞 (2)</span>
+                            </button>
+                            <button class="flex items-center hover:text-primary">
+                                <i class="fa fa-share-alt mr-1"></i>
+                                <span>分享</span>
+                            </button>
+                        </div>
+                        <button class="text-primary hover:underline">
+                            <i class="fa fa-flag-o mr-1"></i>
+                            举报
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 回复列表区 -->
+                <div class="bg-white rounded-lg shadow-card p-6 mb-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-bold text-dark">专业回复 <span class="text-sm font-normal text-text-secondary">(0)</span></h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-text-secondary mr-2">排序:</span>
+                            <select class="border border-gray-200 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                                <option value="time">最新回复</option>
+                                <option value="like">最多点赞</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- 未回复状态 -->
+                    <div class="text-center py-10">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-comments-o text-2xl text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-dark mb-2">暂无专业回复</h3>
+                        <p class="text-sm text-text-secondary mb-4">可尝试悬赏升级，提高问题优先级</p>
+                        <button class="btn-primary">去悬赏</button>
+                    </div>
+                    
+                    <!-- 回复列表 (当前隐藏，有回复时显示) -->
+                    <div class="hidden space-y-6" id="answer-list">
+                        <!-- 回复卡片1 -->
+                        <div class="border-b border-gray-100 pb-6">
+                            <div class="flex items-start mb-3">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fa fa-hospital-o text-primary"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="font-medium text-dark mr-2">心灵港湾咨询中心</span>
+                                        <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center">
+                                            <i class="fa fa-check-circle mr-1"></i>蓝V认证
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-text-secondary mb-2">3小时前回复</p>
+                                    <div class="text-gray-700 mb-3">
+                                        <p class="mb-3">您好，根据您描述的症状，确实存在焦虑情绪的表现。以下是一些可能有助于缓解焦虑的方法：</p>
+                                        <ol class="list-decimal pl-5 mb-3 space-y-2">
+                                            <li>深呼吸练习：尝试4-7-8呼吸法，即吸气4秒，屏息7秒，呼气8秒，重复几次。</li>
+                                            <li>渐进式肌肉放松：从脚趾开始，逐渐向上绷紧再放松每个肌肉群。</li>
+                                            <li>规律作息：保持固定的睡眠时间，避免熬夜。</li>
+                                            <li>限制咖啡因摄入：减少咖啡、茶、可乐等含咖啡因饮料的摄入。</li>
+                                        </ol>
+                                        <p>如果这些方法效果不明显，建议您考虑寻求专业心理咨询师的帮助。</p>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-text-secondary hover:text-primary">
+                                                <i class="fa fa-thumbs-o-up mr-1"></i>
+                                                <span>12</span>
+                                            </button>
+                                            <button class="flex items-center text-text-secondary hover:text-primary">
+                                                <i class="fa fa-comment-o mr-1"></i>
+                                                <span>回复</span>
+                                            </button>
+                                        </div>
+                                        <button class="text-primary hover:underline">
+                                            <i class="fa fa-user-md mr-1"></i>
+                                            申请咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 回复卡片2 -->
+                        <div>
+                            <div class="flex items-start mb-3">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fa fa-user-md text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="font-medium text-dark mr-2">李医生</span>
+                                        <span class="bg-green-100 text-green-600 text-xs px-2 py-0.5 rounded-full flex items-center">
+                                            <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-text-secondary mb-2">5小时前回复</p>
+                                    <div class="text-gray-700 mb-3">
+                                        <p class="mb-3">您的情况属于典型的职场焦虑，不必过度担心。以下是一些实用的建议：</p>
+                                        <ul class="list-disc pl-5 mb-3 space-y-2">
+                                            <li>工作分解：将大任务分解为小步骤，每完成一步给自己一个小奖励。</li>
+                                            <li>设定边界：工作时间和私人时间分开，避免工作侵占休息时间。</li>
+                                            <li>正念冥想：每天花10-15分钟进行正念练习，关注当下。</li>
+                                            <li>体育锻炼：每周至少进行150分钟中等强度的有氧运动。</li>
+                                        </ul>
+                                        <p>如果症状持续超过两周，建议寻求专业医生的帮助，可能需要考虑短期的抗焦虑药物治疗。</p>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-text-secondary hover:text-primary">
+                                                <i class="fa fa-thumbs-o-up mr-1"></i>
+                                                <span>8</span>
+                                            </button>
+                                            <button class="flex items-center text-text-secondary hover:text-primary">
+                                                <i class="fa fa-comment-o mr-1"></i>
+                                                <span>回复</span>
+                                            </button>
+                                        </div>
+                                        <button class="text-primary hover:underline">
+                                            <i class="fa fa-user-md mr-1"></i>
+                                            申请咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部操作栏 (用户视角) -->
+                <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-30">
+                    <div class="container mx-auto flex items-center justify-between gap-3">
+                        <button class="btn-secondary flex-1 flex items-center justify-center" id="back-to-square-btn">
+                            <i class="fa fa-arrow-left mr-2"></i>
+                            返回广场
+                        </button>
+                        <button class="btn-primary flex-2" id="apply-consult-btn">
+                            <i class="fa fa-user-md mr-2"></i>
+                            申请一对一咨询
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 底部操作栏 (咨询师视角，默认隐藏) -->
+                <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-30 hidden" id="consultant-action-bar">
+                    <div class="container mx-auto flex items-center justify-between gap-3">
+                        <button class="btn-secondary flex-1 flex items-center justify-center" id="back-to-square-consultant-btn">
+                            <i class="fa fa-arrow-left mr-2"></i>
+                            返回广场
+                        </button>
+                        <button class="btn-primary flex-2" id="answer-question-btn">
+                            <i class="fa fa-pencil mr-2"></i>
+                            我来回复
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 咨询师选择弹窗 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="consultant-modal">
+        <div class="bg-white rounded-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-5">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-dark">选择咨询师</h3>
+                    <button class="text-gray-400 hover:text-gray-600" id="close-consultant-modal-btn">
+                        <i class="fa fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- 咨询师卡片1 -->
+                    <div class="border border-gray-200 rounded-lg p-4 card-transition hover:shadow-card-hover cursor-pointer">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-hospital-o text-primary text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center mb-1">
+                                    <h4 class="font-medium text-dark mr-2">心灵港湾咨询中心</h4>
+                                    <span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full flex items-center">
+                                        <i class="fa fa-check-circle mr-1"></i>蓝V认证
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <span class="bg-blue-50 text-blue-600 text-xs px-2 py-0.5 rounded-full">焦虑</span>
+                                    <span class="bg-green-50 text-green-600 text-xs px-2 py-0.5 rounded-full">抑郁</span>
+                                    <span class="bg-purple-50 text-purple-600 text-xs px-2 py-0.5 rounded-full">职场</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-clock-o mr-1"></i>
+                                            <span>24小时内响应</span>
+                                        </span>
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-star text-warning mr-1"></i>
+                                            <span>4.9</span>
+                                        </span>
+                                    </div>
+                                    <span class="text-primary font-medium">¥200/次起</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 咨询师卡片2 -->
+                    <div class="border border-gray-200 rounded-lg p-4 card-transition hover:shadow-card-hover cursor-pointer">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-user-md text-green-600 text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center mb-1">
+                                    <h4 class="font-medium text-dark mr-2">李医生</h4>
+                                    <span class="bg-green-100 text-green-600 text-xs px-2 py-0.5 rounded-full flex items-center">
+                                        <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <span class="bg-blue-50 text-blue-600 text-xs px-2 py-0.5 rounded-full">焦虑</span>
+                                    <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-0.5 rounded-full">睡眠</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-clock-o mr-1"></i>
+                                            <span>12小时内响应</span>
+                                        </span>
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-star text-warning mr-1"></i>
+                                            <span>4.8</span>
+                                        </span>
+                                    </div>
+                                    <span class="text-primary font-medium">¥150/次起</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 咨询师卡片3 -->
+                    <div class="border border-gray-200 rounded-lg p-4 card-transition hover:shadow-card-hover cursor-pointer">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-user-md text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center mb-1">
+                                    <h4 class="font-medium text-dark mr-2">王心理师</h4>
+                                    <span class="bg-purple-100 text-purple-600 text-xs px-2 py-0.5 rounded-full flex items-center">
+                                        <i class="fa fa-user-md mr-1"></i>志愿咨询师
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <span class="bg-blue-50 text-blue-600 text-xs px-2 py-0.5 rounded-full">焦虑</span>
+                                    <span class="bg-red-50 text-red-600 text-xs px-2 py-0.5 rounded-full">抑郁</span>
+                                    <span class="bg-purple-50 text-purple-600 text-xs px-2 py-0.5 rounded-full">职场</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-clock-o mr-1"></i>
+                                            <span>8小时内响应</span>
+                                        </span>
+                                        <span class="text-text-secondary flex items-center">
+                                            <i class="fa fa-star text-warning mr-1"></i>
+                                            <span>4.7</span>
+                                        </span>
+                                    </div>
+                                    <span class="text-primary font-medium">¥180/次起</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 咨询师选择弹窗控制
+        const consultantModal = document.getElementById('consultant-modal');
+        
+        document.getElementById('apply-consult-btn').addEventListener('click', function() {
+            consultantModal.classList.remove('hidden');
+        });
+        
+        document.getElementById('close-consultant-modal-btn').addEventListener('click', function() {
+            consultantModal.classList.add('hidden');
+        });
+        
+        // 点击咨询师卡片跳转到付费咨询页面
+        const consultantCards = document.querySelectorAll('#consultant-modal .border.border-gray-200');
+        consultantCards.forEach(card => {
+            card.addEventListener('click', function() {
+                alert('即将跳转到付费咨询下单页');
+                consultantModal.classList.add('hidden');
+            });
+        });
+        
+        // 模拟咨询师视角切换 (实际应用中应根据登录用户角色决定)
+        function toggleConsultantView() {
+            const userActionBar = document.querySelector('.fixed.bottom-0:not(#consultant-action-bar)');
+            const consultantActionBar = document.getElementById('consultant-action-bar');
+            
+            userActionBar.classList.toggle('hidden');
+            consultantActionBar.classList.toggle('hidden');
+        }
+        
+        // 咨询师回复按钮点击事件
+        document.getElementById('answer-question-btn').addEventListener('click', function() {
+            window.location.href = 'answer.html';
+        });
+        
+        // 返回广场按钮点击事件
+        document.getElementById('back-to-square-btn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+        
+        // 咨询师视角返回广场按钮点击事件
+        document.getElementById('back-to-square-consultant-btn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+        
+        // 悬赏按钮点击事件
+        const rewardButtons = document.querySelectorAll('.btn-primary');
+        rewardButtons.forEach(button => {
+            if (button.textContent.includes('确认悬赏') || button.textContent.includes('去悬赏')) {
+                button.addEventListener('click', function() {
+                    alert('悬赏功能已触发，请完成支付流程');
+                });
+            }
+        });
+        
+        // 点赞按钮点击事件
+        const likeButtons = document.querySelectorAll('.fa-thumbs-o-up');
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const countElement = this.nextElementSibling;
+                let count = parseInt(countElement.textContent.replace(/[^\d]/g, ''));
+                
+                if (this.classList.contains('text-primary')) {
+                    // 取消点赞
+                    this.classList.remove('text-primary');
+                    count--;
+                } else {
+                    // 点赞
+                    this.classList.add('text-primary');
+                    count++;
+                }
+                
+                if (countElement.textContent.includes('(')) {
+                    countElement.textContent = `(${count})`;
+                } else {
+                    countElement.textContent = count;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

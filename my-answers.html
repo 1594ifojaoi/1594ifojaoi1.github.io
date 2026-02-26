@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSafe Harbor - 我的回复</title>
+    <link href="./style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏（复用平台统一导航） -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo & 返回（优化为动态返回按钮） -->
+            <div class="flex items-center space-x-2">
+                <button class="text-gray-600 hover:text-primary mr-2" onclick="goBack()" title="返回上一页">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                    <i class="fa fa-heart-o text-white"></i>
+                </div>
+                <span class="text-lg font-bold text-dark">EchoSafe Harbor</span>
+            </div>
+            
+            <!-- 页面标题 -->
+            <h1 class="text-lg font-medium text-dark hidden md:block">我的回复</h1>
+            
+            <!-- 右侧占位（保持布局对称） -->
+            <div class="w-16"></div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 页面标题（移动端） -->
+        <h1 class="text-lg font-bold text-dark mb-6 md:hidden">我的回复</h1>
+        
+        <!-- 回复列表容器 -->
+        <div id="answers-container" class="space-y-4">
+            <!-- 空状态（默认显示） -->
+            <div id="empty-state" class="text-center py-16 bg-white rounded-lg shadow-card">
+                <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-comment-o text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="font-medium text-dark mb-2">还未发布过回复</h3>
+                <p class="text-sm text-text-secondary mb-6">你可以进入抢答池，为需要帮助的用户提供专业解答</p>
+                <a href="index.html" class="btn-primary inline-flex items-center">
+                    <i class="fa fa-bolt mr-2"></i>去抢答
+                </a>
+            </div>
+            
+            <!-- 回复列表（API获取数据后渲染，默认隐藏） -->
+            <div id="answers-list" class="hidden space-y-4">
+                <!-- 示例回复项（实际由API渲染） -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 新增：返回上级页面逻辑（优先历史记录，兜底首页）
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // 页面加载后调用API获取我的回复
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetchWithFallback('/api/consultant/answers', './mock/my-answers.json', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 实际项目中需携带咨询师身份凭证
+                        // 'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.code === 200 && data.data && data.data.length > 0) {
+                        // 有数据，渲染回复列表
+                        renderAnswers(data.data);
+                    } else {
+                        // 无数据，保持空状态
+                        showEmptyState();
+                    }
+                } else {
+                    throw new Error('获取回复失败');
+                }
+            } catch (error) {
+                // 网络异常时仍显示空状态
+                showEmptyState();
+            }
+        });
+        
+        async function fetchWithFallback(primaryUrl, fallbackUrl, options) {
+            try {
+                const res = await fetch(primaryUrl, options);
+                if (res.ok) return res;
+            } catch (_) {}
+            return fetch(fallbackUrl, options);
+        }
+        
+        // 渲染回复列表
+        function renderAnswers(answers) {
+            const emptyState = document.getElementById('empty-state');
+            const answersList = document.getElementById('answers-list');
+            
+            // 隐藏空状态，显示列表
+            emptyState.classList.add('hidden');
+            answersList.classList.remove('hidden');
+            
+            // 清空列表（避免重复渲染）
+            answersList.innerHTML = '';
+            
+            // 遍历渲染每个回复项
+            answers.forEach(answer => {
+                const answerItem = document.createElement('div');
+                answerItem.className = 'bg-white rounded-lg shadow-card p-4 card-transition hover:shadow-card-hover cursor-pointer';
+                
+                // 标签样式
+                const tagColorMap = {
+                    '焦虑': 'bg-blue-100 text-primary',
+                    '抑郁': 'bg-red-100 text-red-700',
+                    '人际': 'bg-green-100 text-green-700',
+                    '学业': 'bg-yellow-100 text-yellow-700',
+                    '职场': 'bg-purple-100 text-purple-700',
+                    '其他': 'bg-gray-100 text-gray-700'
+                };
+                const tagClass = tagColorMap[answer.questionTag] || 'bg-gray-100 text-gray-700';
+                
+                // 拼接HTML
+                answerItem.innerHTML = `
+                    <div class="flex items-start justify-between mb-2">
+                        <span class="text-sm text-text-secondary">${formatTime(answer.createTime)}</span>
+                        <span class="${tagClass} text-xs px-2 py-1 rounded-full">${answer.questionTag}</span>
+                    </div>
+                    <h3 class="font-medium text-dark mb-3 line-clamp-1">${answer.questionTitle}</h3>
+                    <div class="bg-gray-50 p-3 rounded-md mb-3">
+                        <p class="text-gray-700 text-sm line-clamp-2">${answer.content}</p>
+                    </div>
+                    <div class="flex items-center justify-between text-text-secondary text-sm">
+                        <span><i class="fa fa-thumbs-o-up mr-1"></i> ${answer.likeCount}点赞</span>
+                        <a href="detail.html?id=${answer.questionId}" class="text-primary hover:underline">查看详情</a>
+                    </div>
+                `;
+                
+                // 添加点击事件（跳转到问题详情页）
+                answerItem.addEventListener('click', function() {
+                    window.location.href = `detail.html?id=${answer.questionId}`;
+                });
+                
+                // 添加到列表
+                answersList.appendChild(answerItem);
+            });
+        }
+        
+        // 显示空状态
+        function showEmptyState() {
+            document.getElementById('empty-state').classList.remove('hidden');
+            document.getElementById('answers-list').classList.add('hidden');
+        }
+        
+        // 格式化时间（示例工具函数）
+        function formatTime(timeStr) {
+            const date = new Date(timeStr);
+            return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
